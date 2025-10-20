@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  validator-0:
+    build: .
+    container_name: layer1-validator-0
+    ports:
+      - "8545:8545"
+      - "9090:9090"
+      - "30303:30303"
+      - "6060:6060"
+    volumes:
+      - ./data/validator-0:/app/data
+    command: >
+      start
+      --data-dir=/app/data
+      --validator
+      --validator-key=/app/data/validator.key
+      --http-port=8545
+      --grpc-port=9090
+      --p2p-port=30303
+      --metrics-port=6060
+      --bootstrap-nodes=
+    networks:
+      - layer1-net
+
+  validator-1:
+    build: .
+    container_name: layer1-validator-1
+    ports:
+      - "8546:8545"
+      - "9091:9090"
+      - "30304:30303"
+      - "6061:6060"
+    volumes:
+      - ./data/validator-1:/app/data
+    command: >
+      start
+      --data-dir=/app/data
+      --validator
+      --validator-key=/app/data/validator.key
+      --http-port=8545
+      --grpc-port=9090
+      --p2p-port=30303
+      --metrics-port=6060
+      --bootstrap-nodes=/ip4/validator-0/tcp/30303
+    depends_on:
+      - validator-0
+    networks:
+      - layer1-net
+
+  validator-2:
+    build: .
+    container_name: layer1-validator-2
+    ports:
+      - "8547:8545"
+      - "9092:9090"
+      - "30305:30303"
+      - "6062:6060"
+    volumes:
+      - ./data/validator-2:/app/data
+    command: >
+      start
+      --data-dir=/app/data
+      --validator
+      --validator-key=/app/data/validator.key
+      --http-port=8545
+      --grpc-port=9090
+      --p2p-port=30303
+      --metrics-port=6060
+      --bootstrap-nodes=/ip4/validator-0/tcp/30303
+    depends_on:
+      - validator-0
+    networks:
+      - layer1-net
+
+  validator-3:
+    build: .
+    container_name: layer1-validator-3
+    ports:
+      - "8548:8545"
+      - "9093:9090"
+      - "30306:30303"
+      - "6063:6060"
+    volumes:
+      - ./data/validator-3:/app/data
+    command: >
+      start
+      --data-dir=/app/data
+      --validator
+      --validator-key=/app/data/validator.key
+      --http-port=8545
+      --grpc-port=9090
+      --p2p-port=30303
+      --metrics-port=6060
+      --bootstrap-nodes=/ip4/validator-0/tcp/30303
+    depends_on:
+      - validator-0
+    networks:
+      - layer1-net
+
+  explorer:
+    image: nginx:alpine
+    container_name: layer1-explorer
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web/explorer:/usr/share/nginx/html:ro
+    depends_on:
+      - validator-0
+    networks:
+      - layer1-net
+
+networks:
+  layer1-net:
+    driver: bridge
+

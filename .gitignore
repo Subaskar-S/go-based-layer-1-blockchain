@@ -1,0 +1,54 @@
+# Binaries
+build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+layer1-node
+layer1-cli
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.out
+
+# Data directories
+data/
+*.db
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+vendor/
+
+# Temporary files
+tmp/
+temp/
+
+# Keys and secrets
+*.key
+*.pem
+accounts.json
+
+# Docker
+.docker/
+
+# Protobuf generated files
+*.pb.go
+
+# Benchmarks
+benchmarks/results/
+
